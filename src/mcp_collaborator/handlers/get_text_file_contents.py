@@ -27,6 +27,10 @@ class GetTextFileContentsHandler(BaseHandler):
             inputSchema={
                 "type": "object",
                 "properties": {
+                    "checkout_path": {
+                        "type": "string",
+                        "description": "The checkout path, as provided by the checkout tool",
+                    },
                     "files": {
                         "type": "array",
                         "description": "List of files and their line ranges to read",
@@ -76,9 +80,9 @@ class GetTextFileContentsHandler(BaseHandler):
                 raise RuntimeError("Missing required argument: 'files'")
 
             for file_info in arguments["files"]:
-                if not os.path.isabs(file_info["file_path"]):
+                if os.path.isabs(file_info["file_path"]):
                     raise RuntimeError(
-                        f"File path must be absolute: {file_info['file_path']}"
+                        f"File path must be relative: {file_info['file_path']}"
                     )
 
             encoding = arguments.get("encoding", "utf-8")

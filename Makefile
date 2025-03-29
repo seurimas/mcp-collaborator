@@ -8,7 +8,7 @@ install:
 	uv sync --all-extras 
 
 coverage:
-	pytest --cov=mcp_text_editor --cov-report=term-missing
+	pytest --cov=mcp_collaborator --cov-report=term-missing
 
 format:
 	black src tests

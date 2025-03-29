@@ -15,7 +15,7 @@ readme = "README.md"
 license = { text = "MIT" }
 
 [project.scripts]
-mcp-text-editor = "mcp_text_editor:run"
+mcp-text-editor = "mcp_collaborator:run"
 
 [project.optional-dependencies]
 test = [
@@ -80,10 +80,10 @@ mypy_path = "src"
 
 
 [tool.hatch.version]
-path = "src/mcp_text_editor/version.py"
+path = "src/mcp_collaborator/version.py"
 
 [tool.coverage.run]
-source = ["mcp_text_editor"]
+source = ["mcp_collaborator"]
 branch = true
 
 [tool.coverage.report]
@@ -111,6 +111,6 @@ exclude_lines = [
 ]
 
 omit = [
-    "src/mcp_text_editor/__init__.py",
-    "src/mcp_text_editor/version.py",
+    "src/mcp_collaborator/__init__.py",
+    "src/mcp_collaborator/version.py",
 ]

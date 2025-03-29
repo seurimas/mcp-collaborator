@@ -29,6 +29,10 @@ class CreateTextFileHandler(BaseHandler):
             inputSchema={
                 "type": "object",
                 "properties": {
+                    "checkout_path": {
+                        "type": "string",
+                        "description": "The checkout path, as provided by the checkout tool",
+                    },
                     "file_path": {
                         "type": "string",
                         "description": "Path to the text file. File path must be absolute.",
@@ -56,8 +60,8 @@ class CreateTextFileHandler(BaseHandler):
                 raise RuntimeError("Missing required argument: contents")
 
             file_path = arguments["file_path"]
-            if not os.path.isabs(file_path):
-                raise RuntimeError(f"File path must be absolute: {file_path}")
+            if os.path.isabs(file_path):
+                raise RuntimeError(f"File path must be relative: {file_path}")
 
             # Check if file already exists
             if os.path.exists(file_path):

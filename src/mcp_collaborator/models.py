@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 class GetTextFileContentsRequest(BaseModel):
     """Request model for getting text file contents."""
 
+    checkout_path: str = Field(..., description="The checkout path, as provided by the checkout tool")
     file_path: str = Field(..., description="Path to the text file")
     start: int = Field(1, description="Starting line number (1-based)")
     end: Optional[int] = Field(None, description="Ending line number (inclusive)")
@@ -16,6 +17,7 @@ class GetTextFileContentsRequest(BaseModel):
 class GetTextFileContentsResponse(BaseModel):
     """Response model for getting text file contents."""
 
+    checkout_path: str = Field(..., description="The checkout path, as provided by the checkout tool")
     contents: str = Field(..., description="File contents")
     start: int = Field(..., description="Starting line number")
     end: int = Field(..., description="Ending line number")
@@ -25,6 +27,7 @@ class GetTextFileContentsResponse(BaseModel):
 class EditPatch(BaseModel):
     """Model for a single edit patch operation."""
 
+    checkout_path: str = Field(..., description="The checkout path, as provided by the checkout tool")
     start: int = Field(1, description="Starting line for edit")
     end: Optional[int] = Field(None, description="Ending line for edit")
     contents: str = Field(..., description="New content to insert")
@@ -51,6 +54,7 @@ class EditPatch(BaseModel):
 class EditFileOperation(BaseModel):
     """Model for individual file edit operation."""
 
+    checkout_path: str = Field(..., description="The checkout path, as provided by the checkout tool")
     path: str = Field(..., description="Path to the file")
     hash: str = Field(..., description="Hash of original contents")
     patches: List[EditPatch] = Field(..., description="Edit operations to apply")
@@ -59,6 +63,7 @@ class EditFileOperation(BaseModel):
 class EditResult(BaseModel):
     """Model for edit operation result."""
 
+    checkout_path: str = Field(..., description="The checkout path, as provided by the checkout tool")
     result: str = Field(..., description="Operation result (ok/error)")
     reason: Optional[str] = Field(None, description="Error message if applicable")
     hash: Optional[str] = Field(
@@ -103,12 +108,14 @@ class EditTextFileContentsRequest(BaseModel):
     }
     """
 
+    checkout_path: str = Field(..., description="The checkout path, as provided by the checkout tool")
     files: List[EditFileOperation] = Field(..., description="List of file operations")
 
 
 class FileRange(BaseModel):
     """Represents a line range in a file."""
 
+    checkout_path: str = Field(..., description="The checkout path, as provided by the checkout tool")
     start: int = Field(..., description="Starting line number (1-based)")
     end: Optional[int] = Field(
         None, description="Ending line number (null for end of file)"
@@ -121,6 +128,7 @@ class FileRange(BaseModel):
 class FileRanges(BaseModel):
     """Represents a file and its line ranges."""
 
+    checkout_path: str = Field(..., description="The checkout path, as provided by the checkout tool")
     file_path: str = Field(..., description="Path to the text file")
     ranges: List[FileRange] = Field(
         ..., description="List of line ranges to read from the file"
@@ -146,6 +154,7 @@ class InsertTextFileContentsRequest(BaseModel):
     }
     """
 
+    checkout_path: str = Field(..., description="The checkout path, as provided by the checkout tool")
     path: str = Field(..., description="Path to the text file")
     file_hash: str = Field(..., description="Hash of original contents")
     after: Optional[int] = Field(
@@ -192,6 +201,7 @@ class DeleteTextFileContentsRequest(BaseModel):
     }
     """
 
+    checkout_path: str = Field(..., description="The checkout path, as provided by the checkout tool")
     file_path: str = Field(..., description="Path to the text file")
     file_hash: str = Field(..., description="Hash of original contents")
     ranges: List[FileRange] = Field(..., description="List of ranges to delete")
@@ -217,6 +227,7 @@ class PatchTextFileContentsRequest(BaseModel):
     }
     """
 
+    checkout_path: str = Field(..., description="The checkout path, as provided by the checkout tool")
     file_path: str = Field(..., description="Path to the text file")
     file_hash: str = Field(..., description="Hash of original contents")
     patches: List[EditPatch] = Field(..., description="List of patches to apply")

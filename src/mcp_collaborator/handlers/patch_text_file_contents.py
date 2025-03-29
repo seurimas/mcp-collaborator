@@ -1,4 +1,4 @@
-"""Handler for deleting content from text files."""
+"""Handler for patching text file contents."""
 
 import json
 import logging
@@ -8,17 +8,16 @@ from typing import Any, Dict, Sequence
 
 from mcp.types import TextContent, Tool
 
-from ..models import DeleteTextFileContentsRequest, FileRange
 from .base import BaseHandler
 
 logger = logging.getLogger("mcp-text-editor")
 
 
-class DeleteTextFileContentsHandler(BaseHandler):
-    """Handler for deleting content from a text file."""
+class PatchTextFileContentsHandler(BaseHandler):
+    """Handler for patching a text file."""
 
-    name = "delete_text_file_contents"
-    description = "Delete specified content ranges from a text file. The file must exist. File paths must be absolute. You need to provide the file_hash comes from get_text_file_contents."
+    name = "patch_text_file_contents"
+    description = "Apply patches to text files with hash-based validation for concurrency control.you need to use get_text_file_contents tool to get the file hash and range hash every time before using this tool. you can use append_text_file_contents tool to append text contents to the file without range hash, start and end. you can use insert_text_file_contents tool to insert text contents to the file without range hash, start and end."
 
     def get_tool_description(self) -> Tool:
         """Get the tool description."""
@@ -28,34 +27,42 @@ class DeleteTextFileContentsHandler(BaseHandler):
             inputSchema={
                 "type": "object",
                 "properties": {
+                    "checkout_path": {
+                        "type": "string",
+                        "description": "The checkout path, as provided by the checkout tool",
+                    },
                     "file_path": {
                         "type": "string",
                         "description": "Path to the text file. File path must be absolute.",
                     },
                     "file_hash": {
                         "type": "string",
-                        "description": "Hash of the file contents for concurrency control. it should be matched with the file_hash when get_text_file_contents is called.",
+                        "description": "Hash of the file contents for concurrency control.",
                     },
-                    "ranges": {
+                    "patches": {
                         "type": "array",
-                        "description": "List of line ranges to delete",
+                        "description": "List of patches to apply",
                         "items": {
                             "type": "object",
                             "properties": {
                                 "start": {
                                     "type": "integer",
-                                    "description": "Starting line number (1-based)",
+                                    "description": "Starting line number (1-based).it should match the range hash.",
                                 },
                                 "end": {
-                                    "type": ["integer", "null"],
-                                    "description": "Ending line number (null for end of file)",
+                                    "type": "integer",
+                                    "description": "Ending line number (null for end of file).it should match the range hash.",
+                                },
+                                "contents": {
+                                    "type": "string",
+                                    "description": "New content to replace the range with",
                                 },
                                 "range_hash": {
                                     "type": "string",
-                                    "description": "Hash of the content being deleted. it should be matched with the range_hash when get_text_file_contents is called with the same range.",
+                                    "description": "Hash of the content being replaced. it should get from get_text_file_contents tool with the same start and end.",
                                 },
                             },
-                            "required": ["start", "range_hash"],
+                            "required": ["start", "end", "contents", "range_hash"],
                         },
                     },
                     "encoding": {
@@ -64,24 +71,23 @@ class DeleteTextFileContentsHandler(BaseHandler):
                         "default": "utf-8",
                     },
                 },
-                "required": ["file_path", "file_hash", "ranges"],
+                "required": ["file_path", "file_hash", "patches"],
             },
         )
 
     async def run_tool(self, arguments: Dict[str, Any]) -> Sequence[TextContent]:
         """Execute the tool with given arguments."""
         try:
-            # Input validation
             if "file_path" not in arguments:
                 raise RuntimeError("Missing required argument: file_path")
             if "file_hash" not in arguments:
                 raise RuntimeError("Missing required argument: file_hash")
-            if "ranges" not in arguments:
-                raise RuntimeError("Missing required argument: ranges")
+            if "patches" not in arguments:
+                raise RuntimeError("Missing required argument: patches")
 
             file_path = arguments["file_path"]
-            if not os.path.isabs(file_path):
-                raise RuntimeError(f"File path must be absolute: {file_path}")
+            if os.path.isabs(file_path):
+                raise RuntimeError(f"File path must be relative: {file_path}")
 
             # Check if file exists
             if not os.path.exists(file_path):
@@ -89,33 +95,15 @@ class DeleteTextFileContentsHandler(BaseHandler):
 
             encoding = arguments.get("encoding", "utf-8")
 
-            # Create file ranges for deletion
-            ranges = [
-                FileRange(
-                    start=r["start"], end=r.get("end"), range_hash=r["range_hash"]
-                )
-                for r in arguments["ranges"]
-            ]
-
-            # Create delete request
-            request = DeleteTextFileContentsRequest(
+            # Apply patches using editor.edit_file_contents
+            result = await self.editor.edit_file_contents(
                 file_path=file_path,
-                file_hash=arguments["file_hash"],
-                ranges=ranges,
+                expected_file_hash=arguments["file_hash"],
+                patches=arguments["patches"],
                 encoding=encoding,
             )
 
-            # Execute deletion using the service
-            result_dict = self.editor.service.delete_text_file_contents(request)
-
-            # Convert EditResults to dictionaries
-            serializable_result = {}
-            for file_path, edit_result in result_dict.items():
-                serializable_result[file_path] = edit_result.to_dict()
-
-            return [
-                TextContent(type="text", text=json.dumps(serializable_result, indent=2))
-            ]
+            return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
         except Exception as e:
             logger.error(f"Error processing request: {str(e)}")

@@ -132,7 +132,7 @@ uv pip install -e ".[dev]"
 Start the server:
 
 ```bash
-python -m mcp_text_editor
+python -m mcp_collaborator
 ```
 
 ### MCP Tools
@@ -423,7 +423,7 @@ Tests are located in the `tests` directory and can be run with pytest:
 pytest
 
 # Run tests with coverage report
-pytest --cov=mcp_text_editor --cov-report=term-missing
+pytest --cov=mcp_collaborator --cov-report=term-missing
 
 # Run specific test file
 pytest tests/test_text_editor.py -v
@@ -435,7 +435,7 @@ Current test coverage: 90%
 
 ```
 mcp-text-editor/
-├── mcp_text_editor/
+├── mcp_collaborator/
 │   ├── __init__.py
 │   ├── __main__.py      # Entry point
 │   ├── models.py        # Data models
