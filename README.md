@@ -1,10 +1,6 @@
-# MCP Text Editor Server
+# MCP Collaborator Server
 
-[![codecov](https://codecov.io/gh/tumf/mcp-text-editor/branch/main/graph/badge.svg?token=52D51U0ZUR)](https://codecov.io/gh/tumf/mcp-text-editor)
-[![smithery badge](https://smithery.ai/badge/mcp-text-editor)](https://smithery.ai/server/mcp-text-editor)
-[![Glama MCP Server](https://glama.ai/mcp/servers/k44dnvso10/badge)](https://glama.ai/mcp/servers/k44dnvso10)
-
-A Model Context Protocol (MCP) server that provides line-oriented text file editing capabilities through a standardized API. Optimized for LLM tools with efficient partial file access to minimize token usage.
+A Model Context Protocol (MCP) server that provides line-oriented text file editing capabilities through a standardized API. Git is integrated to make collaboration between AI and people easy and safer. Optimized for LLM tools with efficient partial file access to minimize token usage.
 
 ## Quick Start for Claude.app Users
 
@@ -20,7 +16,7 @@ code ~/Library/Application\ Support/Claude/claude_desktop_config.json
     "text-editor": {
       "command": "uvx",
       "args": [
-        "mcp-text-editor"
+        "mcp-collaborator"
       ]
     }
   }
@@ -93,15 +89,15 @@ uv pip install -e ".[dev]"
 ### Run via uvx
 
 ```bash
-uvx mcp-text-editor
+uvx mcp-collaborator
 ```
 
 ### Installing via Smithery
 
-To install Text Editor Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/mcp-text-editor):
+To install Text Editor Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/mcp-collaborator):
 
 ```bash
-npx -y @smithery/cli install mcp-text-editor --client claude
+npx -y @smithery/cli install mcp-collaborator --client claude
 ```
 
 ### Manual Installation
@@ -434,7 +430,7 @@ Current test coverage: 90%
 ### Project Structure
 
 ```
-mcp-text-editor/
+mcp-collaborator/
 ├── mcp_collaborator/
 │   ├── __init__.py
 │   ├── __main__.py      # Entry point

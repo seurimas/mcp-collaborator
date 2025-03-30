@@ -5,8 +5,8 @@ from typing import Any, Dict, Generator
 
 import pytest
 
-from mcp_text_editor.server import AppendTextFileContentsHandler
-from mcp_text_editor.text_editor import TextEditor
+from mcp_collaborator.server import AppendTextFileContentsHandler
+from mcp_collaborator.text_editor import TextEditor
 
 # Initialize handler for tests
 append_handler = AppendTextFileContentsHandler()

@@ -9,7 +9,7 @@ from mcp.server import stdio
 from mcp.types import TextContent, Tool
 from pytest_mock import MockerFixture
 
-from mcp_text_editor.server import (
+from mcp_collaborator.server import (
     GetTextFileContentsHandler,
     app,
     append_file_handler,

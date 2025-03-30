@@ -1,5 +1,5 @@
 [project]
-name = "mcp-text-editor"
+name = "mcp-collaborator"
 dynamic = ["version"]
 description = "MCP Text Editor Server - Edit text files via MCP protocol"
 authors = [
@@ -9,13 +9,16 @@ dependencies = [
     "asyncio>=3.4.3",
     "mcp>=1.1.2",
     "chardet>=5.2.0",
+    "click>=8.1.7",
+    "gitpython>=3.1.43",
+    "pydantic>=2.0.0",
 ]
 requires-python = ">=3.13"
 readme = "README.md"
 license = { text = "MIT" }
 
 [project.scripts]
-mcp-text-editor = "mcp_collaborator:run"
+mcp-collaborator = "mcp_collaborator:run"
 
 [project.optional-dependencies]
 test = [

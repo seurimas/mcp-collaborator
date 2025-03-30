@@ -248,7 +248,7 @@ wheels = [
 ]
 
 [[package]]
-name = "mcp-text-editor"
+name = "mcp-collaborator"
 version = "0.0.0.dev0"
 source = { editable = "." }
 dependencies = [

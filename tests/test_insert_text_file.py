@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from mcp_text_editor.text_editor import TextEditor
+from mcp_collaborator.text_editor import TextEditor
 
 
 @pytest.mark.asyncio

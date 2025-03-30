@@ -4,10 +4,10 @@ import os
 
 import pytest
 
-from mcp_text_editor.handlers.patch_text_file_contents import (
+from mcp_collaborator.handlers.patch_text_file_contents import (
     PatchTextFileContentsHandler,
 )
-from mcp_text_editor.text_editor import TextEditor
+from mcp_collaborator.text_editor import TextEditor
 
 
 @pytest.mark.asyncio

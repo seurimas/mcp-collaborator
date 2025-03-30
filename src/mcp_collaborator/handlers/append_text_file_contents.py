@@ -10,7 +10,7 @@ from mcp.types import TextContent, Tool
 
 from .base import BaseHandler
 
-logger = logging.getLogger("mcp-text-editor")
+logger = logging.getLogger("mcp-collaborator")
 
 
 class AppendTextFileContentsHandler(BaseHandler):

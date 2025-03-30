@@ -8,7 +8,7 @@ import pytest
 import pytest_asyncio
 from mcp.server import Server
 
-from mcp_text_editor.server import app
+from mcp_collaborator.server import app
 
 
 @pytest.fixture

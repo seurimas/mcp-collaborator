@@ -4,8 +4,8 @@ import json
 
 import pytest
 
-from mcp_text_editor.models import DeleteTextFileContentsRequest, FileRange
-from mcp_text_editor.service import TextEditorService
+from mcp_collaborator.models import DeleteTextFileContentsRequest, FileRange
+from mcp_collaborator.service import TextEditorService
 
 
 @pytest.fixture
@@ -223,10 +223,10 @@ def test_delete_text_file_contents_multiple_ranges(service, tmp_path):
 @pytest.mark.asyncio
 async def test_delete_text_file_contents_handler_validation():
     """Test validation in DeleteTextFileContentsHandler."""
-    from mcp_text_editor.handlers.delete_text_file_contents import (
+    from mcp_collaborator.handlers.delete_text_file_contents import (
         DeleteTextFileContentsHandler,
     )
-    from mcp_text_editor.text_editor import TextEditor
+    from mcp_collaborator.text_editor import TextEditor
 
     editor = TextEditor()
     handler = DeleteTextFileContentsHandler(editor)
@@ -276,11 +276,11 @@ async def test_delete_text_file_contents_handler_validation():
 @pytest.mark.asyncio
 async def test_delete_text_file_contents_handler_runtime_error(tmp_path):
     """Test runtime error handling in DeleteTextFileContentsHandler."""
-    from mcp_text_editor.handlers.delete_text_file_contents import (
+    from mcp_collaborator.handlers.delete_text_file_contents import (
         DeleteTextFileContentsHandler,
     )
-    from mcp_text_editor.service import TextEditorService
-    from mcp_text_editor.text_editor import TextEditor
+    from mcp_collaborator.service import TextEditorService
+    from mcp_collaborator.text_editor import TextEditor
 
     class MockService(TextEditorService):
         def delete_text_file_contents(self, request):
@@ -308,12 +308,12 @@ async def test_delete_text_file_contents_handler_runtime_error(tmp_path):
 @pytest.mark.asyncio
 async def test_delete_text_file_contents_handler_success(tmp_path):
     """Test successful execution of DeleteTextFileContentsHandler including JSON serialization."""
-    from mcp_text_editor.handlers.delete_text_file_contents import (
+    from mcp_collaborator.handlers.delete_text_file_contents import (
         DeleteTextFileContentsHandler,
     )
-    from mcp_text_editor.models import EditResult
-    from mcp_text_editor.service import TextEditorService
-    from mcp_text_editor.text_editor import TextEditor
+    from mcp_collaborator.models import EditResult
+    from mcp_collaborator.service import TextEditorService
+    from mcp_collaborator.text_editor import TextEditor
 
     class MockService(TextEditorService):
         def delete_text_file_contents(self, request):

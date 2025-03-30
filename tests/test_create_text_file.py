@@ -5,7 +5,7 @@ from typing import Any, Dict, Generator
 
 import pytest
 
-from mcp_text_editor.server import CreateTextFileHandler
+from mcp_collaborator.server import CreateTextFileHandler
 
 # Initialize handlers for tests
 create_file_handler = CreateTextFileHandler()

@@ -11,7 +11,7 @@ from mcp.types import TextContent, Tool
 from ..models import DeleteTextFileContentsRequest, FileRange
 from .base import BaseHandler
 
-logger = logging.getLogger("mcp-text-editor")
+logger = logging.getLogger("mcp-collaborator")
 
 
 class DeleteTextFileContentsHandler(BaseHandler):

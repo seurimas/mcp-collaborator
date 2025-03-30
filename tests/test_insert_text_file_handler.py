@@ -4,10 +4,10 @@ import json
 
 import pytest
 
-from mcp_text_editor.handlers.insert_text_file_contents import (
+from mcp_collaborator.handlers.insert_text_file_contents import (
     InsertTextFileContentsHandler,
 )
-from mcp_text_editor.text_editor import TextEditor
+from mcp_collaborator.text_editor import TextEditor
 
 
 @pytest.fixture

@@ -4,8 +4,8 @@ import os
 
 import pytest
 
-from mcp_text_editor.models import EditFileOperation, EditPatch, EditResult
-from mcp_text_editor.service import TextEditorService
+from mcp_collaborator.models import EditFileOperation, EditPatch, EditResult
+from mcp_collaborator.service import TextEditorService
 
 
 @pytest.fixture

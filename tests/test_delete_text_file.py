@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pytest
 
-from mcp_text_editor.models import DeleteTextFileContentsRequest, FileRange
-from mcp_text_editor.text_editor import TextEditor
+from mcp_collaborator.models import DeleteTextFileContentsRequest, FileRange
+from mcp_collaborator.text_editor import TextEditor
 
 
 @pytest.fixture

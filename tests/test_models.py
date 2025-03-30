@@ -3,7 +3,7 @@
 import pytest
 from pydantic import ValidationError
 
-from mcp_text_editor.models import (
+from mcp_collaborator.models import (
     EditFileOperation,
     EditPatch,
     EditResult,
